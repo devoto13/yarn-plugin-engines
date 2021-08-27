@@ -1,0 +1,4 @@
+{
+  "name": "yarn-plugin-engines",
+  "packageManager": "yarn@3.0.1"
+}
