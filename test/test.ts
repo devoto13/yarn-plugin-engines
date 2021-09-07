@@ -22,7 +22,14 @@ const install = (): { stdout: string; status: number } => {
   });
 };
 
-test("errors out when Node version does not satisfy engines.node", (t) => {
+const build = (): { stderr: string; status: number } => {
+  return spawnSync("yarn", ["build"], {
+    cwd: resolve(__dirname, ".."),
+    encoding: "utf-8",
+  });
+};
+
+test("fails package installation when Node version does not satisfy engines.node", (t) => {
   t.plan(2);
 
   updatePackage({ engines: { node: ">= 42" } });
@@ -40,6 +47,19 @@ test("errors out when Node version does not satisfy engines.node", (t) => {
           "➤ YN0000: Failed with errors",
         ].join("\n")
     )
+  );
+});
+
+test("fails script execution when Node version does not satisfy engines.node", (t) => {
+  t.plan(2);
+
+  updatePackage({ engines: { node: ">= 42" } });
+  const { stderr: output, status: exitCode } = build();
+
+  t.equal(exitCode, 1);
+  t.equal(
+    output,
+    "The current node version v14.17.3 does not satisfy the required version >= 42.\n"
   );
 });
 

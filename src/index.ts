@@ -18,6 +18,19 @@ const plugin: Plugin = {
         );
       }
     },
+    setupScriptEnvironment: async (project: Project): Promise<void> => {
+      const packageJson = readFileSync(
+        resolve(project.cwd, "package.json"),
+        "utf-8"
+      );
+      const { engines = {} } = JSON.parse(packageJson);
+      if (engines.node != null && !satisfies(process.version, engines.node)) {
+        console.error(
+          `The current node version ${process.version} does not satisfy the required version ${engines.node}.`
+        );
+        process.exit(1);
+      }
+    },
   },
 };
 
