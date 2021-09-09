@@ -34,6 +34,9 @@ As well as fail a script execution with a non-zero exit code:
 $ cat package.json
 {
     "name": "my-package",
+    "scripts": {
+        "build": "echo success!"
+    },
     "engines": {
         "node": ">= 42"
     }
