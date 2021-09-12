@@ -46,7 +46,7 @@ test("fails package installation when Node version does not satisfy engines.node
       "^" +
         [
           "➤ YN0000: ┌ Project validation",
-          "➤ YN0000: │ The current node version v14.17.3 does not satisfy the required version >= 42.",
+          `➤ YN0000: │ The current node version v${process.versions.node} does not satisfy the required version >= 42.`,
           "➤ YN0000: └ Completed",
           "➤ YN0000: Failed with errors",
         ].join("\n")
@@ -63,7 +63,7 @@ test("fails script execution when Node version does not satisfy engines.node", (
   t.equal(exitCode, 1);
   t.equal(
     output,
-    "The current node version v14.17.3 does not satisfy the required version >= 42.\n"
+    `The current node version v${process.versions.node} does not satisfy the required version >= 42.\n`
   );
 });
 
