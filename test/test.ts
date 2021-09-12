@@ -19,6 +19,7 @@ const install = (): { stdout: string; status: number } => {
   return spawnSync("yarn", {
     cwd: resolve(__dirname, ".."),
     encoding: "utf-8",
+    env: { ...process.env, GITHUB_ACTIONS: undefined },
   });
 };
 
@@ -26,6 +27,7 @@ const build = (): { stderr: string; status: number } => {
   return spawnSync("yarn", ["build"], {
     cwd: resolve(__dirname, ".."),
     encoding: "utf-8",
+    env: { ...process.env, GITHUB_ACTIONS: undefined },
   });
 };
 
