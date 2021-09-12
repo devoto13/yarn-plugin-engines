@@ -3,20 +3,22 @@ import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import test from "tape";
 
+var isWin = process.platform === "win32";
+
 const updatePackage = (values: { engines?: { node?: string } }): void => {
   const content = JSON.parse(
-    readFileSync(resolve(__dirname, "../package.json"), "utf-8")
+    readFileSync(resolve(__dirname, "..", "package.json"), "utf-8")
   );
   delete content.engines;
   Object.assign(content, values);
   writeFileSync(
-    resolve(__dirname, "../package.json"),
+    resolve(__dirname, "..", "package.json"),
     JSON.stringify(content, undefined, "  ")
   );
 };
 
 const install = (): { stdout: string; status: number } => {
-  return spawnSync("yarn", {
+  return spawnSync(isWin ? "yarn.cmd" : "yarn", {
     cwd: resolve(__dirname, ".."),
     encoding: "utf-8",
     env: { ...process.env, GITHUB_ACTIONS: undefined },
@@ -24,7 +26,7 @@ const install = (): { stdout: string; status: number } => {
 };
 
 const build = (): { stderr: string; status: number } => {
-  return spawnSync("yarn", ["build"], {
+  return spawnSync(isWin ? "yarn.cmd" : "yarn", ["build"], {
     cwd: resolve(__dirname, ".."),
     encoding: "utf-8",
     env: { ...process.env, GITHUB_ACTIONS: undefined },

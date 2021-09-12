@@ -40,6 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/tape", "npm:4.13.2"],
             ["@yarnpkg/builder", "virtual:b2bb5e2c50c023011be6d4457577d9e05fd99d103b24a89469beb025a7edb0d09d0b8cb3e67162d31ae9955aa7e8dc6edda987ac18ed15e546acd2f67350cdde#npm:3.0.1"],
             ["@yarnpkg/core", "npm:3.0.0"],
+            ["@yarnpkg/fslib", "npm:2.5.2"],
             ["semver", "npm:7.3.5"],
             ["tape", "npm:5.3.1"],
             ["ts-node", "virtual:b2bb5e2c50c023011be6d4457577d9e05fd99d103b24a89469beb025a7edb0d09d0b8cb3e67162d31ae9955aa7e8dc6edda987ac18ed15e546acd2f67350cdde#npm:10.2.1"],
@@ -997,6 +998,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@yarnpkg-fslib-npm-2.5.1-2c48d4e7b6-7dbf458b92.zip/node_modules/@yarnpkg/fslib/",
           "packageDependencies": [
             ["@yarnpkg/fslib", "npm:2.5.1"],
+            ["@yarnpkg/libzip", "npm:2.2.2"],
+            ["tslib", "npm:1.14.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.5.2", {
+          "packageLocation": "./.yarn/cache/@yarnpkg-fslib-npm-2.5.2-28ede04921-a4be406e5f.zip/node_modules/@yarnpkg/fslib/",
+          "packageDependencies": [
+            ["@yarnpkg/fslib", "npm:2.5.2"],
             ["@yarnpkg/libzip", "npm:2.2.2"],
             ["tslib", "npm:1.14.1"]
           ],
@@ -5326,6 +5336,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/tape", "npm:4.13.2"],
             ["@yarnpkg/builder", "virtual:b2bb5e2c50c023011be6d4457577d9e05fd99d103b24a89469beb025a7edb0d09d0b8cb3e67162d31ae9955aa7e8dc6edda987ac18ed15e546acd2f67350cdde#npm:3.0.1"],
             ["@yarnpkg/core", "npm:3.0.0"],
+            ["@yarnpkg/fslib", "npm:2.5.2"],
             ["semver", "npm:7.3.5"],
             ["tape", "npm:5.3.1"],
             ["ts-node", "virtual:b2bb5e2c50c023011be6d4457577d9e05fd99d103b24a89469beb025a7edb0d09d0b8cb3e67162d31ae9955aa7e8dc6edda987ac18ed15e546acd2f67350cdde#npm:10.2.1"],

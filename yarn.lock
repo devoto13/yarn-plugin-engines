@@ -818,6 +818,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@yarnpkg/fslib@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "@yarnpkg/fslib@npm:2.5.2"
+  dependencies:
+    "@yarnpkg/libzip": ^2.2.2
+    tslib: ^1.13.0
+  checksum: a4be406e5f7e623e7b7aa2f731ce4d9f140339782a0c1da0fc376bc89cf3b7f7ec71e280657041c567c7879a9326b0e4b4bb967a34a785bc13facdf9f97dd73f
+  languageName: node
+  linkType: hard
+
 "@yarnpkg/json-proxy@npm:^2.1.1":
   version: 2.1.1
   resolution: "@yarnpkg/json-proxy@npm:2.1.1"
@@ -4370,6 +4380,7 @@ typescript@~4.3.5:
     "@types/tape": ^4.13.2
     "@yarnpkg/builder": ^3.0.1
     "@yarnpkg/core": ^3.0.0
+    "@yarnpkg/fslib": ^2.5.2
     semver: ^7.3.5
     tape: ^5.3.1
     ts-node: ^10.2.1

@@ -1,4 +1,5 @@
 import { MessageName, Plugin, Project, ReportError } from "@yarnpkg/core";
+import { npath } from "@yarnpkg/fslib";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { satisfies } from "semver";
@@ -7,7 +8,7 @@ const plugin: Plugin = {
   hooks: {
     validateProject: (project: Project): void => {
       const packageJson = readFileSync(
-        resolve(project.cwd, "package.json"),
+        resolve(npath.fromPortablePath(project.cwd), "package.json"),
         "utf-8"
       );
       const { engines = {} } = JSON.parse(packageJson);
@@ -20,7 +21,7 @@ const plugin: Plugin = {
     },
     setupScriptEnvironment: async (project: Project): Promise<void> => {
       const packageJson = readFileSync(
-        resolve(project.cwd, "package.json"),
+        resolve(npath.fromPortablePath(project.cwd), "package.json"),
         "utf-8"
       );
       const { engines = {} } = JSON.parse(packageJson);
