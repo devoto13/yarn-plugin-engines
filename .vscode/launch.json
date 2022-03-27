@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "test",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["tape", "-r", "ts-node/register", "test/test.ts"]
+    }
+  ]
+}

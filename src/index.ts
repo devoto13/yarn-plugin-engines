@@ -1,4 +1,10 @@
-import { MessageName, Plugin, Project, ReportError } from "@yarnpkg/core";
+import {
+  MessageName,
+  Plugin,
+  Project,
+  ReportError,
+  YarnVersion,
+} from "@yarnpkg/core";
 import { npath } from "@yarnpkg/fslib";
 import { readFileSync } from "fs";
 import { resolve } from "path";
@@ -15,7 +21,13 @@ const plugin: Plugin = {
       if (engines.node != null && !satisfies(process.version, engines.node)) {
         throw new ReportError(
           MessageName.UNNAMED,
-          `The current node version ${process.version} does not satisfy the required version ${engines.node}.`
+          `The current Node version ${process.version} does not satisfy the required version ${engines.node}.`
+        );
+      }
+      if (engines.yarn != null && !satisfies(YarnVersion, engines.yarn)) {
+        throw new ReportError(
+          MessageName.UNNAMED,
+          `The current Yarn version v${YarnVersion} does not satisfy the required version ${engines.yarn}.`
         );
       }
     },
@@ -27,7 +39,13 @@ const plugin: Plugin = {
       const { engines = {} } = JSON.parse(packageJson);
       if (engines.node != null && !satisfies(process.version, engines.node)) {
         console.error(
-          `The current node version ${process.version} does not satisfy the required version ${engines.node}.`
+          `The current Node version ${process.version} does not satisfy the required version ${engines.node}.`
+        );
+        process.exit(1);
+      }
+      if (engines.yarn != null && !satisfies(YarnVersion, engines.yarn)) {
+        console.error(
+          `The current Yarn version v${YarnVersion} does not satisfy the required version ${engines.yarn}.`
         );
         process.exit(1);
       }
