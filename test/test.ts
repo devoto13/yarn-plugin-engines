@@ -57,7 +57,7 @@ test("fails package installation when Node version does not satisfy engines.node
       "^" +
         [
           "➤ YN0000: ┌ Project validation",
-          `➤ YN0000: │ The current Node version v${process.versions.node} does not satisfy the required version >= 42.`,
+          `➤ YN0000: │ The current Node version ${process.versions.node} does not satisfy the required version >= 42.`,
           "➤ YN0000: └ Completed",
           "➤ YN0000: Failed with errors",
         ].join("\n")
@@ -74,7 +74,7 @@ test("fails script execution when Node version does not satisfy engines.node", (
   t.equal(exitCode, 1);
   t.equal(
     output,
-    `The current Node version v${process.versions.node} does not satisfy the required version >= 42.\n`
+    `The current Node version ${process.versions.node} does not satisfy the required version >= 42.\n`
   );
 });
 
@@ -101,7 +101,7 @@ test("fails package installation when Yarn version does not satisfy engines.yarn
       "^" +
         [
           "➤ YN0000: ┌ Project validation",
-          `➤ YN0000: │ The current Yarn version v${yarnVersion} does not satisfy the required version >= 42.`,
+          `➤ YN0000: │ The current Yarn version ${yarnVersion} does not satisfy the required version >= 42.`,
           "➤ YN0000: └ Completed",
           "➤ YN0000: Failed with errors",
         ].join("\n")
@@ -118,7 +118,7 @@ test("fails script execution when Yarn version does not satisfy engines.yarn", (
   t.equal(exitCode, 1);
   t.equal(
     output,
-    `The current Yarn version v${yarnVersion} does not satisfy the required version >= 42.\n`
+    `The current Yarn version ${yarnVersion} does not satisfy the required version >= 42.\n`
   );
 });
 
