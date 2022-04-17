@@ -5,17 +5,10 @@ import {
   ReportError,
   YarnVersion,
 } from "@yarnpkg/core";
-import { npath } from "@yarnpkg/fslib";
-import { readFileSync } from "fs";
-import { resolve } from "path";
 import { satisfies } from "semver";
 
 const verifyEngines = (reportError: (message: string) => never) => (project: Project): void => {
-  const packageJson = readFileSync(
-    resolve(npath.fromPortablePath(project.cwd), "package.json"),
-    "utf-8"
-  );
-  const { engines = {} } = JSON.parse(packageJson);
+  const { engines = {} } = project.getWorkspaceByCwd(project.cwd).manifest.raw;
   if (engines.node != null && !satisfies(process.version, engines.node)) {
     reportError(
       `The current Node version ${process.version} does not satisfy the required version ${engines.node}.`
