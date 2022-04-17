@@ -23,7 +23,7 @@ $ cat package.json
 $ yarn
 yarn
 ➤ YN0000: ┌ Project validation
-➤ YN0000: │ The current node version v14.17.3 does not satisfy the required version >= 42.
+➤ YN0000: │ The current node version 14.17.3 does not satisfy the required version >= 42.
 ➤ YN0000: └ Completed
 ➤ YN0000: Failed with errors in 0s 5ms
 ```
@@ -42,7 +42,7 @@ $ cat package.json
     }
 }
 $ yarn build
-The current node version v14.17.3 does not satisfy the required version >= 42.
+The current node version 14.17.3 does not satisfy the required version >= 42.
 ```
 
 ## Supported `engines` keys
