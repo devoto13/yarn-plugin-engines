@@ -12,7 +12,7 @@ import {
 
 const verifyEngines = (errorReporter: ErrorReporter) => (project: Project): void => {
   const { engines = {} } = project.getWorkspaceByCwd(project.cwd).manifest.raw;
-  const options: EngineCheckerOptions = { errorReporter };
+  const options: EngineCheckerOptions = { project, errorReporter };
   const engineCheckers: EngineChecker[] = [
     new NodeEngineChecker(options),
     new YarnEngineChecker(options)
