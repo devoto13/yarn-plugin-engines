@@ -142,6 +142,19 @@ test("fails script execution when the .nvmrc file contains an invalid semver ran
   );
 });
 
+test("fails script execution when the .nvmrc file does not exist", (t) => {
+  t.plan(2);
+
+  updatePackage({ engines: { node: ".nvmrc" } });
+  const { stderr: output, status: exitCode } = build();
+
+  t.equal(exitCode, 1);
+  t.equal(
+    output,
+    "Unable to verify the Node version. The .nvmrc file does not exist.\n"
+  );
+});
+
 test("does nothing when Node version satisfies the .nvmrc file", (t) => {
   t.plan(2);
 
