@@ -1,5 +1,5 @@
 import { spawnSync } from "child_process";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, unlinkSync } from "fs";
 import { resolve } from "path";
 import test from "tape";
 
@@ -44,6 +44,30 @@ const getYarnVersion = (): string => {
 
 const yarnVersion = getYarnVersion();
 
+const nvmrcPath = resolve(__dirname, "..", ".nvmrc");
+
+const originalNvmrcContent = existsSync(nvmrcPath) ? readFileSync(nvmrcPath) : null;
+const restoreNvmrc = () => {
+  if (!existsSync(nvmrcPath)) {
+    return;
+  }
+  if (originalNvmrcContent === null) {
+    unlinkSync(nvmrcPath)
+  } else {
+    writeFileSync(
+      nvmrcPath,
+      originalNvmrcContent
+    )
+  }
+}
+
+const updateNvmrc = (requirement: string) => {
+  writeFileSync(
+    nvmrcPath,
+    requirement
+  );
+}
+
 test("fails package installation when Node version does not satisfy engines.node", (t) => {
   t.plan(2);
 
@@ -83,6 +107,48 @@ test("does nothing when Node version satisfies engines.node", (t) => {
 
   updatePackage({ engines: { node: ">= 10" } });
   const { stdout: output, status: exitCode } = install();
+
+  t.equal(exitCode, 0);
+  t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+});
+
+test("fails script execution when Node version does not satisfy the .nvmrc file", (t) => {
+  t.plan(2);
+
+  updatePackage({ engines: { node: ".nvmrc" } });
+  updateNvmrc('>= 42')
+  const { stderr: output, status: exitCode } = build();
+  restoreNvmrc();
+
+  t.equal(exitCode, 1);
+  t.equal(
+    output,
+    `The current Node version ${process.versions.node} does not satisfy the required version >= 42.\n`
+  );
+});
+
+test("fails script execution when the .nvmrc file contains an invalid semver range", (t) => {
+  t.plan(2);
+
+  updatePackage({ engines: { node: ".nvmrc" } });
+  updateNvmrc("stable")
+  const { stderr: output, status: exitCode } = build();
+  restoreNvmrc();
+
+  t.equal(exitCode, 1);
+  t.equal(
+    output,
+    "Unable to verify the Node version. The .nvmrc file contains an invalid semver range.\n"
+  );
+});
+
+test("does nothing when Node version satisfies the .nvmrc file", (t) => {
+  t.plan(2);
+
+  updatePackage({ engines: { node: ".nvmrc" } });
+  updateNvmrc('>= 10')
+  const { stdout: output, status: exitCode } = install();
+  restoreNvmrc();
 
   t.equal(exitCode, 0);
   t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
