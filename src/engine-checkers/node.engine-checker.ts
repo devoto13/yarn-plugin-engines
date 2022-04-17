@@ -1,4 +1,4 @@
-import {readFileSync} from "fs";
+import {readFileSync, existsSync} from "fs";
 import {resolve} from "path";
 import {
     satisfies,
@@ -6,8 +6,6 @@ import {
  } from "semver"
 import {npath} from "@yarnpkg/fslib"
 import {
-    ReportError,
-    MessageName,
     formatUtils,
 } from "@yarnpkg/core";
 import { EngineChecker } from "./engine-checker";
@@ -32,11 +30,16 @@ export class NodeEngineChecker extends EngineChecker {
 
     protected resolveNvmRequiredVersion = (): string => {
         const {configuration, cwd} = this.project;
-        const nvmrcVersion = readFileSync(resolve(npath.fromPortablePath(cwd), ".nvmrc"), "utf-8").trim();
+        const nvmrcPath = resolve(npath.fromPortablePath(cwd), ".nvmrc");
+        const engineText = formatUtils.applyStyle(configuration, formatUtils.pretty(configuration, this.engine, 'green'), 2);
+        if (!existsSync(nvmrcPath)) {
+            this.throwError(formatUtils.pretty(configuration, `Unable to verify the ${engineText} version. The .nvmrc file does not exist.`, 'red'));
+            return;
+        }
+        const nvmrcVersion = readFileSync(nvmrcPath, "utf-8").trim();
         if (validRange(nvmrcVersion)){
             return nvmrcVersion;
         }
-        const engineText = formatUtils.applyStyle(configuration, formatUtils.pretty(configuration, this.engine, 'green'), 2);
         const nvmrcText = formatUtils.pretty(configuration, '.nvmrc', 'yellow');
         this.throwError(formatUtils.pretty(configuration, `Unable to verify the ${engineText} version. The ${nvmrcText} file contains an invalid semver range.`, 'red'));
     }
