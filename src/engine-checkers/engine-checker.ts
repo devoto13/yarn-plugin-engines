@@ -27,6 +27,11 @@ export abstract class EngineChecker {
 
     protected throwWrongEngineError = (currentVersion: string, requiredVersion: string): void => {
         const message = this.formatErrorMessage(currentVersion, requiredVersion);
+        this.throwError(message);
+        
+    }
+
+    protected throwError = (message: string): void => {
         switch (this.errorReporter) {
             case ErrorReporter.Yarn:
                 this.reportYarnError(message);
