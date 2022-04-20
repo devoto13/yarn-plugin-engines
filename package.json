@@ -9,12 +9,15 @@
     "@yarnpkg/builder": "^3.2.0",
     "@yarnpkg/core": "^3.2.0",
     "@yarnpkg/fslib": "^2.6.1",
+    "prettier": "^2.6.2",
     "semver": "^7.3.5",
     "tape": "^5.5.2",
     "ts-node": "^10.7.0",
     "typescript": "~4.6.3"
   },
   "scripts": {
+    "format": "prettier --write '{src,test}/**/*.ts'",
+    "format:check": "prettier --check '{src,test}/**/*.ts'",
     "build": "builder build plugin && yarn plugin import ./bundles/@yarnpkg/plugin-engines.js",
     "test": "tape -r ts-node/register test/test.ts"
   }
