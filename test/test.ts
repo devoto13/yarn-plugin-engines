@@ -5,18 +5,11 @@ import test from "tape";
 
 const isWin = process.platform === "win32";
 
-const updatePackage = (values: {
-  engines?: { node?: string; yarn?: string };
-}): void => {
-  const content = JSON.parse(
-    readFileSync(resolve(__dirname, "..", "package.json"), "utf-8")
-  );
+const updatePackage = (values: { engines?: { node?: string; yarn?: string } }): void => {
+  const content = JSON.parse(readFileSync(resolve(__dirname, "..", "package.json"), "utf-8"));
   delete content.engines;
   Object.assign(content, values);
-  writeFileSync(
-    resolve(__dirname, "..", "package.json"),
-    JSON.stringify(content, undefined, "  ")
-  );
+  writeFileSync(resolve(__dirname, "..", "package.json"), JSON.stringify(content, undefined, "  "));
 };
 
 const install = (): { stdout: string; status: number } => {
@@ -36,9 +29,7 @@ const build = (): { stderr: string; status: number } => {
 };
 
 const getYarnVersion = (): string => {
-  const content = JSON.parse(
-    readFileSync(resolve(__dirname, "..", "package.json"), "utf-8")
-  );
+  const content = JSON.parse(readFileSync(resolve(__dirname, "..", "package.json"), "utf-8"));
   return content.packageManager.slice(5);
 };
 
@@ -52,21 +43,15 @@ const restoreNvmrc = () => {
     return;
   }
   if (originalNvmrcContent === null) {
-    unlinkSync(nvmrcPath)
+    unlinkSync(nvmrcPath);
   } else {
-    writeFileSync(
-      nvmrcPath,
-      originalNvmrcContent
-    )
+    writeFileSync(nvmrcPath, originalNvmrcContent);
   }
-}
+};
 
 const updateNvmrc = (requirement: string) => {
-  writeFileSync(
-    nvmrcPath,
-    requirement
-  );
-}
+  writeFileSync(nvmrcPath, requirement);
+};
 
 test("fails package installation when Node version does not satisfy engines.node", (t) => {
   t.plan(2);
@@ -96,10 +81,7 @@ test("fails script execution when Node version does not satisfy engines.node", (
   const { stderr: output, status: exitCode } = build();
 
   t.equal(exitCode, 1);
-  t.equal(
-    output,
-    `The current Node version ${process.versions.node} does not satisfy the required version >= 42.\n`
-  );
+  t.equal(output, `The current Node version ${process.versions.node} does not satisfy the required version >= 42.\n`);
 });
 
 test("does nothing when Node version satisfies engines.node", (t) => {
@@ -116,30 +98,24 @@ test("fails script execution when Node version does not satisfy the .nvmrc file"
   t.plan(2);
 
   updatePackage({ engines: { node: ".nvmrc" } });
-  updateNvmrc('>= 42')
+  updateNvmrc(">= 42");
   const { stderr: output, status: exitCode } = build();
   restoreNvmrc();
 
   t.equal(exitCode, 1);
-  t.equal(
-    output,
-    `The current Node version ${process.versions.node} does not satisfy the required version >= 42.\n`
-  );
+  t.equal(output, `The current Node version ${process.versions.node} does not satisfy the required version >= 42.\n`);
 });
 
 test("fails script execution when the .nvmrc file contains an invalid semver range", (t) => {
   t.plan(2);
 
   updatePackage({ engines: { node: ".nvmrc" } });
-  updateNvmrc("stable")
+  updateNvmrc("stable");
   const { stderr: output, status: exitCode } = build();
   restoreNvmrc();
 
   t.equal(exitCode, 1);
-  t.equal(
-    output,
-    "Unable to verify the Node version. The .nvmrc file contains an invalid semver range.\n"
-  );
+  t.equal(output, "Unable to verify the Node version. The .nvmrc file contains an invalid semver range.\n");
 });
 
 test("fails script execution when the .nvmrc file does not exist", (t) => {
@@ -149,17 +125,14 @@ test("fails script execution when the .nvmrc file does not exist", (t) => {
   const { stderr: output, status: exitCode } = build();
 
   t.equal(exitCode, 1);
-  t.equal(
-    output,
-    "Unable to verify the Node version. The .nvmrc file does not exist.\n"
-  );
+  t.equal(output, "Unable to verify the Node version. The .nvmrc file does not exist.\n");
 });
 
 test("does nothing when Node version satisfies the .nvmrc file", (t) => {
   t.plan(2);
 
   updatePackage({ engines: { node: ".nvmrc" } });
-  updateNvmrc('>= 10')
+  updateNvmrc(">= 10");
   const { stdout: output, status: exitCode } = install();
   restoreNvmrc();
 
@@ -195,10 +168,7 @@ test("fails script execution when Yarn version does not satisfy engines.yarn", (
   const { stderr: output, status: exitCode } = build();
 
   t.equal(exitCode, 1);
-  t.equal(
-    output,
-    `The current Yarn version ${yarnVersion} does not satisfy the required version >= 42.\n`
-  );
+  t.equal(output, `The current Yarn version ${yarnVersion} does not satisfy the required version >= 42.\n`);
 });
 
 test("does nothing when Yarn version satisfies engines.yarn", (t) => {

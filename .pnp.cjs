@@ -39,6 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/builder", "npm:3.2.0"],\
             ["@yarnpkg/core", "npm:3.2.0"],\
             ["@yarnpkg/fslib", "npm:2.6.1"],\
+            ["prettier", "npm:2.6.2"],\
             ["semver", "npm:7.3.5"],\
             ["tape", "npm:5.5.2"],\
             ["ts-node", "virtual:b2bb5e2c50c023011be6d4457577d9e05fd99d103b24a89469beb025a7edb0d09d0b8cb3e67162d31ae9955aa7e8dc6edda987ac18ed15e546acd2f67350cdde#npm:10.7.0"],\
@@ -2611,6 +2612,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["prettier", [\
+        ["npm:2.6.2", {\
+          "packageLocation": "./.yarn/cache/prettier-npm-2.6.2-05918420da-48d08dde8e.zip/node_modules/prettier/",\
+          "packageDependencies": [\
+            ["prettier", "npm:2.6.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["pretty-bytes", [\
         ["npm:5.6.0", {\
           "packageLocation": "./.yarn/cache/pretty-bytes-npm-5.6.0-0061079c9f-9c082500d1.zip/node_modules/pretty-bytes/",\
@@ -3320,6 +3330,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/builder", "npm:3.2.0"],\
             ["@yarnpkg/core", "npm:3.2.0"],\
             ["@yarnpkg/fslib", "npm:2.6.1"],\
+            ["prettier", "npm:2.6.2"],\
             ["semver", "npm:7.3.5"],\
             ["tape", "npm:5.5.2"],\
             ["ts-node", "virtual:b2bb5e2c50c023011be6d4457577d9e05fd99d103b24a89469beb025a7edb0d09d0b8cb3e67162d31ae9955aa7e8dc6edda987ac18ed15e546acd2f67350cdde#npm:10.7.0"],\

@@ -2023,6 +2023,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "prettier@npm:2.6.2"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 48d08dde8e9fb1f5bccdd205baa7f192e9fc8bc98f86e1b97d919de804e28c806b0e6cc685e4a88211aa7987fa9668f30baae19580d87ced3ed0f2ec6572106f
+  languageName: node
+  linkType: hard
+
 "pretty-bytes@npm:^5.1.0":
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
@@ -2663,6 +2672,7 @@ resolve@^2.0.0-next.3:
     "@yarnpkg/builder": ^3.2.0
     "@yarnpkg/core": ^3.2.0
     "@yarnpkg/fslib": ^2.6.1
+    prettier: ^2.6.2
     semver: ^7.3.5
     tape: ^5.5.2
     ts-node: ^10.7.0
