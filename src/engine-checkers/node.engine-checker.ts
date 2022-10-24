@@ -18,7 +18,7 @@ export class NodeEngineChecker extends EngineChecker {
     if (nodeRequiredVersion === ".nvmrc") {
       nodeRequiredVersion = this.resolveNvmRequiredVersion();
     }
-    if (!satisfies(process.version, nodeRequiredVersion)) {
+    if (!satisfies(process.version, nodeRequiredVersion, { includePrerelease: true })) {
       this.throwWrongEngineError(process.version.replace(/^v/i, ""), nodeRequiredVersion.replace(/^v/i, ""));
     }
   }
