@@ -10,6 +10,10 @@ import {
 const verifyEngines =
   (errorReporter: ErrorReporter) =>
   (project: Project): void => {
+    if (process.env.YARN_PLUGIN_ENGINES_DISABLE != null) {
+      return;
+    }
+
     const { engines = {} } = project.getWorkspaceByCwd(project.cwd).manifest.raw;
     const options: EngineCheckerOptions = { project, errorReporter };
     const engineCheckers: EngineChecker[] = [new NodeEngineChecker(options), new YarnEngineChecker(options)];
