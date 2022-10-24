@@ -12,7 +12,7 @@ export class YarnEngineChecker extends EngineChecker {
     if (yarnRequiredVersion == null) {
       return;
     }
-    if (!satisfies(YarnVersion, yarnRequiredVersion)) {
+    if (!satisfies(YarnVersion, yarnRequiredVersion, { includePrerelease: true })) {
       this.throwWrongEngineError(YarnVersion, yarnRequiredVersion);
     }
   }
