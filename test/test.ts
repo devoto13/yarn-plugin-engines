@@ -1,5 +1,5 @@
 import { spawnSync } from "child_process";
-import { readFileSync, writeFileSync, existsSync, unlinkSync } from "fs";
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import test from "tape";
 
@@ -12,19 +12,19 @@ const updatePackage = (values: { engines?: { node?: string; yarn?: string } }): 
   writeFileSync(resolve(__dirname, "..", "package.json"), JSON.stringify(content, undefined, "  "));
 };
 
-const install = (): { stdout: string; status: number } => {
+const install = (options: { env?: Record<string, unknown> } = {}): { stdout: string; status: number } => {
   return spawnSync(isWin ? "yarn.cmd" : "yarn", {
     cwd: resolve(__dirname, ".."),
     encoding: "utf-8",
-    env: { ...process.env, GITHUB_ACTIONS: undefined },
+    env: { ...process.env, ...options.env, GITHUB_ACTIONS: undefined },
   });
 };
 
-const build = (): { stderr: string; status: number } => {
+const build = (options: { env?: Record<string, unknown> } = {}): { stderr: string; status: number } => {
   return spawnSync(isWin ? "yarn.cmd" : "yarn", ["build"], {
     cwd: resolve(__dirname, ".."),
     encoding: "utf-8",
-    env: { ...process.env, GITHUB_ACTIONS: undefined },
+    env: { ...process.env, ...options.env, GITHUB_ACTIONS: undefined },
   });
 };
 
@@ -189,4 +189,25 @@ test("does nothing when engines is not present", (t) => {
 
   t.equal(exitCode, 0);
   t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+});
+
+test("allows installation when plugin is disabled using environment variable", (t) => {
+  t.plan(2);
+
+  updatePackage({ engines: { node: ">= 42" } });
+
+  const { stdout: output, status: exitCode } = install({ env: { YARN_PLUGIN_ENGINES_DISABLE: "1" } });
+
+  t.equal(exitCode, 0);
+  t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+});
+
+test("allows script execution when plugin is disabled using environment variable", (t) => {
+  t.plan(1);
+
+  updatePackage({ engines: { node: ">= 42" } });
+
+  const { status: exitCode } = build({ env: { YARN_PLUGIN_ENGINES_DISABLE: "1" } });
+
+  t.equal(exitCode, 0);
 });
