@@ -52,7 +52,7 @@ The current node version 14.17.3 does not satisfy the required version >= 42.
 
 ## Disable the check
 
-Sometimes it is desired to ignore the engines check in certain environment. For example, when running `renovate` which uses its own Node version not controlled by the project developer. In such cases `YARN_PLUGIN_ENGINES_DISABLE=1` environment variable can be set to disable the plugin.
+Sometimes it is desired to ignore the engines check in certain environment. For example, when running `renovate` which uses its own Node version not controlled by the project developer. In such cases `PLUGIN_YARN_ENGINES_DISABLE=1` environment variable can be set to disable the plugin.
 
 ## Motivation
 

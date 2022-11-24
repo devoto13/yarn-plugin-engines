@@ -196,7 +196,7 @@ test("allows installation when plugin is disabled using environment variable", (
 
   updatePackage({ engines: { node: ">= 42" } });
 
-  const { stdout: output, status: exitCode } = install({ env: { YARN_PLUGIN_ENGINES_DISABLE: "1" } });
+  const { stdout: output, status: exitCode } = install({ env: { PLUGIN_YARN_ENGINES_DISABLE: "1" } });
 
   t.equal(exitCode, 0);
   t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
@@ -207,7 +207,7 @@ test("allows script execution when plugin is disabled using environment variable
 
   updatePackage({ engines: { node: ">= 42" } });
 
-  const { status: exitCode } = build({ env: { YARN_PLUGIN_ENGINES_DISABLE: "1" } });
+  const { status: exitCode } = build({ env: { PLUGIN_YARN_ENGINES_DISABLE: "1" } });
 
   t.equal(exitCode, 0);
 });
