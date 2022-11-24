@@ -10,7 +10,7 @@ import {
 const verifyEngines =
   (errorReporter: ErrorReporter) =>
   (project: Project): void => {
-    if (process.env.YARN_PLUGIN_ENGINES_DISABLE != null) {
+    if (process.env.PLUGIN_YARN_ENGINES_DISABLE != null) {
       return;
     }
 
