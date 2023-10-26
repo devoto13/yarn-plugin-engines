@@ -47,7 +47,7 @@ The current node version 14.17.3 does not satisfy the required version >= 42.
 
 ## Supported `engines` keys
 
-- `node` to control the version of Node. Besides the desired version, it is possible to set this key to `.nvmrc` constant. In this case plugin will read the desired version from the [`.nvmrc` file](https://github.com/nvm-sh/nvm#nvmrc).
+- `node` to control the version of Node. Besides the desired version, it is possible to set this key to `.nvmrc` or `.node-version` constant. In this case plugin will read the desired version from the [`.nvmrc` file](https://github.com/nvm-sh/nvm#nvmrc) or [`.node-version` file](https://github.com/shadowspawn/node-version-usage).
 - `yarn` to control the version of Yarn.
 
 ## Disable the check
