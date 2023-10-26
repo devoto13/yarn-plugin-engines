@@ -5,6 +5,9 @@ import { npath } from "@yarnpkg/fslib";
 import { formatUtils } from "@yarnpkg/core";
 import { EngineChecker } from "./engine-checker";
 
+const NVMRC_FILENAME = ".nvmrc";
+const NODE_VERSION_FILENAME = ".node-version";
+
 export class NodeEngineChecker extends EngineChecker {
   get engine(): string {
     return "Node";
@@ -15,41 +18,43 @@ export class NodeEngineChecker extends EngineChecker {
     if (nodeRequiredVersion == null) {
       return;
     }
-    if (nodeRequiredVersion === ".nvmrc") {
-      nodeRequiredVersion = this.resolveNvmRequiredVersion();
-    }
+    [NVMRC_FILENAME, NODE_VERSION_FILENAME].forEach((filename) => {
+      if (nodeRequiredVersion === filename) {
+        nodeRequiredVersion = this.resolveNodeFromFileRequiredVersion(filename);
+      }
+    });
     if (!satisfies(process.version, nodeRequiredVersion, { includePrerelease: true })) {
       this.throwWrongEngineError(process.version.replace(/^v/i, ""), nodeRequiredVersion.replace(/^v/i, ""));
     }
   }
 
-  protected resolveNvmRequiredVersion = (): string => {
+  protected resolveNodeFromFileRequiredVersion = (filename: string): string => {
     const { configuration, cwd } = this.project;
-    const nvmrcPath = resolve(npath.fromPortablePath(cwd), ".nvmrc");
+    const filePath = resolve(npath.fromPortablePath(cwd), filename);
     const engineText = formatUtils.applyStyle(
       configuration,
       formatUtils.pretty(configuration, this.engine, "green"),
       2
     );
-    if (!existsSync(nvmrcPath)) {
+    if (!existsSync(filePath)) {
       this.throwError(
         formatUtils.pretty(
           configuration,
-          `Unable to verify the ${engineText} version. The .nvmrc file does not exist.`,
+          `Unable to verify the ${engineText} version. The ${filename} file does not exist.`,
           "red"
         )
       );
       return;
     }
-    const nvmrcVersion = readFileSync(nvmrcPath, "utf-8").trim();
-    if (validRange(nvmrcVersion)) {
-      return nvmrcVersion;
+    const nodeFileVersion = readFileSync(filePath, "utf-8").trim();
+    if (validRange(nodeFileVersion)) {
+      return nodeFileVersion;
     }
-    const nvmrcText = formatUtils.pretty(configuration, ".nvmrc", "yellow");
+    const filenameText = formatUtils.pretty(configuration, filename, "yellow");
     this.throwError(
       formatUtils.pretty(
         configuration,
-        `Unable to verify the ${engineText} version. The ${nvmrcText} file contains an invalid semver range.`,
+        `Unable to verify the ${engineText} version. The ${filenameText} file contains an invalid semver range.`,
         "red"
       )
     );
