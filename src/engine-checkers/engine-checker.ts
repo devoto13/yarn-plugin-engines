@@ -51,7 +51,7 @@ export abstract class EngineChecker {
     const engineText = formatUtils.applyStyle(
       configuration,
       formatUtils.pretty(configuration, this.engine, "green"),
-      2
+      2,
     );
     const currentVersionText = formatUtils.pretty(configuration, currentVersion, "cyan");
     const requiredVersionText = formatUtils.pretty(configuration, requiredVersion, "cyan");

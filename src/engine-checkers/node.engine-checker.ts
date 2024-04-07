@@ -34,15 +34,15 @@ export class NodeEngineChecker extends EngineChecker {
     const engineText = formatUtils.applyStyle(
       configuration,
       formatUtils.pretty(configuration, this.engine, "green"),
-      2
+      2,
     );
     if (!existsSync(filePath)) {
       this.throwError(
         formatUtils.pretty(
           configuration,
           `Unable to verify the ${engineText} version. The ${filename} file does not exist.`,
-          "red"
-        )
+          "red",
+        ),
       );
       return;
     }
@@ -55,8 +55,8 @@ export class NodeEngineChecker extends EngineChecker {
       formatUtils.pretty(
         configuration,
         `Unable to verify the ${engineText} version. The ${filenameText} file contains an invalid semver range.`,
-        "red"
-      )
+        "red",
+      ),
     );
   };
 }
