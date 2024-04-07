@@ -65,12 +65,13 @@ test("fails package installation when Node version does not satisfy engines.node
     new RegExp(
       "^" +
         [
+          `➤ YN0000: · Yarn ${yarnVersion}`,
           "➤ YN0000: ┌ Project validation",
           `➤ YN0000: │ The current Node version ${process.versions.node} does not satisfy the required version >= 42.`,
           "➤ YN0000: └ Completed",
-          "➤ YN0000: Failed with errors",
-        ].join("\n")
-    )
+          "➤ YN0000: · Failed with errors",
+        ].join("\n"),
+    ),
   );
 });
 
@@ -91,7 +92,7 @@ test("does nothing when Node version satisfies engines.node", (t) => {
   const { stdout: output, status: exitCode } = install();
 
   t.equal(exitCode, 0);
-  t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+  t.match(output, new RegExp(`^➤ YN0000: · Yarn ${yarnVersion}\n➤ YN0000: ┌ Resolution step`));
 });
 
 test("fails script execution when Node version does not satisfy the .nvmrc file", (t) => {
@@ -137,7 +138,7 @@ test("does nothing when Node version satisfies the .nvmrc file", (t) => {
   restoreNvmrc();
 
   t.equal(exitCode, 0);
-  t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+  t.match(output, new RegExp(`^➤ YN0000: · Yarn ${yarnVersion}\n➤ YN0000: ┌ Resolution step`));
 });
 
 test("fails package installation when Yarn version does not satisfy engines.yarn", (t) => {
@@ -152,12 +153,13 @@ test("fails package installation when Yarn version does not satisfy engines.yarn
     new RegExp(
       "^" +
         [
+          `➤ YN0000: · Yarn ${yarnVersion}`,
           "➤ YN0000: ┌ Project validation",
           `➤ YN0000: │ The current Yarn version ${yarnVersion} does not satisfy the required version >= 42.`,
           "➤ YN0000: └ Completed",
-          "➤ YN0000: Failed with errors",
-        ].join("\n")
-    )
+          "➤ YN0000: · Failed with errors",
+        ].join("\n"),
+    ),
   );
 });
 
@@ -174,11 +176,11 @@ test("fails script execution when Yarn version does not satisfy engines.yarn", (
 test("does nothing when Yarn version satisfies engines.yarn", (t) => {
   t.plan(2);
 
-  updatePackage({ engines: { yarn: "3.x" } });
+  updatePackage({ engines: { yarn: "4.x" } });
   const { stdout: output, status: exitCode } = install();
 
   t.equal(exitCode, 0);
-  t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+  t.match(output, new RegExp(`^➤ YN0000: · Yarn ${yarnVersion}\n➤ YN0000: ┌ Resolution step`));
 });
 
 test("does nothing when engines is not present", (t) => {
@@ -188,7 +190,7 @@ test("does nothing when engines is not present", (t) => {
   const { stdout: output, status: exitCode } = install();
 
   t.equal(exitCode, 0);
-  t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+  t.match(output, new RegExp(`^➤ YN0000: · Yarn ${yarnVersion}\n➤ YN0000: ┌ Resolution step`));
 });
 
 test("allows installation when plugin is disabled using environment variable", (t) => {
@@ -199,7 +201,7 @@ test("allows installation when plugin is disabled using environment variable", (
   const { stdout: output, status: exitCode } = install({ env: { PLUGIN_YARN_ENGINES_DISABLE: "1" } });
 
   t.equal(exitCode, 0);
-  t.match(output, new RegExp("^➤ YN0000: ┌ Resolution step"));
+  t.match(output, new RegExp(`^➤ YN0000: · Yarn ${yarnVersion}\n➤ YN0000: ┌ Resolution step`));
 });
 
 test("allows script execution when plugin is disabled using environment variable", (t) => {
